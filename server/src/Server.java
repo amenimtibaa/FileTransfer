@@ -1,5 +1,8 @@
 // A Java program for a Server
 import java.net.*;
+
+import files.handler.FilesTransfer;
+
 import java.io.*;
   
 public class Server
@@ -23,8 +26,8 @@ public class Server
   
             socket = server.accept();
             System.out.println("Client accepted"); 
-            saveFile(socket);
-            System.out.println("Done saving ! ");
+            FilesTransfer.saveFile(socket, FILE_TO_RECEIVED,  FILE_SIZE);
+            System.out.println("Done saving !");
             
             System.out.println("Closing connection");
             
@@ -38,39 +41,10 @@ public class Server
         }
     }
     
-    private void saveFile(Socket clientSock) throws IOException {
-		
-		int bytesRead;
-	    int current = 0;
-	    FileOutputStream fos = null;
-	    BufferedOutputStream bos = null;
-		// receive file
-	    byte [] mybytearray  = new byte [FILE_SIZE];
-	    InputStream is = socket.getInputStream();
-	    fos = new FileOutputStream(FILE_TO_RECEIVED);
-	    bos = new BufferedOutputStream(fos);
-	    bytesRead = is.read(mybytearray,0,mybytearray.length);
-	    current = bytesRead;
-	
-	    do {
-	       bytesRead = is.read(mybytearray, current, (mybytearray.length-current));
-	       if(bytesRead >= 0) current += bytesRead;
-	    } while(bytesRead > -1);
-	
-	    bos.write(mybytearray, 0 , current);
-	    bos.flush();
-	    System.out.println("File " + FILE_TO_RECEIVED
-	        + " downloaded (" + current + " bytes read)");
-	    
-	    if (fos != null) fos.close();
-	    if (bos != null) bos.close();
-	    if (socket != null) socket.close();
-    }
-    
+   
     	
     public static void main(String args[])
     {
-        Server server = new Server(5000);
-        
-            }
+        Server server = new Server(5000);    
+    }
 }

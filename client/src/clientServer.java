@@ -1,27 +1,28 @@
 import java.net.*;
+
+import files.handler.FilesTransfer;
+
 import java.io.*;
 
-
-	  
 public class clientServer{
 	
-    // initialize socket and input output streams
-	public final static String FILE_TO_SEND = "2.jpg";  // "graduate.docx"; 
-    private Socket socket			 = null;
-    private DataInputStream  input   = null;
-    private DataOutputStream out     = null;
+	public final static String FILE_NAME = "2.jpg";  // "graduate.docx"; 
+	public final static int SOCKET_PORT = 5000; 
+	public final static String SERVER = "localhost";
+    
+	private Socket socket			 = null;
   
-    // constructor to put ip address and port
     public clientServer(String address, int port)
     {
         // establish a connection
         try
         {
-	            socket = new Socket(address, port);
+	        socket = new Socket(address, port);
             System.out.println("Connected");
-            
-            sendFile("1.jpeg");
+            //Send a file
+            FilesTransfer.sendFile(FILE_NAME, socket);
             System.out.println("done sending !");
+            if (socket!=null) socket.close();
             
         }
         catch(IOException i) 
@@ -31,36 +32,14 @@ public class clientServer{
         catch(Exception u)
         {
             System.out.println(u);
-            System.out.println("Not Connected");
         }
         
     }
     
-    public void sendFile(String file) throws IOException {
-    	FileInputStream fis = null;
-        BufferedInputStream bis = null;
-        OutputStream os = null;
-		// send file
-        File myFile = new File (FILE_TO_SEND);
-        byte [] mybytearray  = new byte [(int)myFile.length()];
-        fis = new FileInputStream(myFile);
-        bis = new BufferedInputStream(fis);
-        bis.read(mybytearray,0,mybytearray.length);
-        os = socket.getOutputStream();
-        System.out.println("Sending " + FILE_TO_SEND + "(" + mybytearray.length + " bytes)");
-        os.write(mybytearray,0,mybytearray.length);
-        os.flush();
-        System.out.println("Done.");
-        
-        if (bis != null) bis.close();
-        if (os != null) os.close();
-        if (socket!=null) socket.close();
-    }
-    
     public static void main(String args[]) throws FileNotFoundException
     {	
-    	clientServer client = new clientServer("localhost", 5000);  
-    	    	
+    	clientServer client = new clientServer(SERVER, SOCKET_PORT);  
+    	
          
     }
     
