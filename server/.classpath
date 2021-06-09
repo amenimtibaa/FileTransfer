@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/macbookpro/Desktop/FileTransfer/server/libs/files_classes.jar"/>
+	<classpathentry kind="lib" path="/Users/macbookpro/Desktop/FileTransfer/server/libs/custom_libs.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

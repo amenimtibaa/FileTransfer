@@ -1,7 +1,7 @@
 // A Java program for a Server
 import java.net.*;
 
-import files.handler.FilesTransfer;
+import custom.libs.FilesTransfer;
 
 import java.io.*;
   

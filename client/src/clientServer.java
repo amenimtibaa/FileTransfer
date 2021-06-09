@@ -1,6 +1,6 @@
 import java.net.*;
 
-import files.handler.FilesTransfer;
+import custom.libs.FilesTransfer;
 
 import java.io.*;
 
