@@ -1,36 +1,78 @@
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.Socket;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.security.GeneralSecurityException;
 
-public class testClientSever {
-	
+public class testClientSever 
+{
 	public static final int SERVER_PORT = 5000; 
 	public static final String SERVER = "localhost";
 	public static final boolean VERBOSE = true; 
 	public static final int keyBitSize = 256;
 	
+	/**Print and return the number of action to take
+	 * */
+	public static String selectAction() throws IOException 
+	{
+        System.out.println("1. Send file.");
+        System.out.println("2. Recieve file.");
+        System.out.println("3. Exit.");
+        System.out.print(" Type the number of the Action you want to do : ");
+        BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+        return stdin.readLine();
+    }
+	
 	public static void main(String args[]) throws FileNotFoundException
-    {	clientFile client;
-    	String KeyStorepassword = "458391479854";
-    	//Socket clientSocket;
-    	
+    {	
+    	String KeyStorepassword = "458391479854";  
     	String KeyStoreFilepath = "keystore.keystore";
     	
     	String plainTextFilepath = "test.txt";
     	String encryptedTextFilepath = "testEncrypted.txt";
     	int FILE_SIZE = 6022386;
+    	PrintStream os = null;
     	
-    	client = new clientFile(SERVER, SERVER_PORT, KeyStoreFilepath, KeyStorepassword);  
-    	
-    	try {
-    		client.sendFile(plainTextFilepath, encryptedTextFilepath);
-    		//client.receiveFile(plainTextFilepath, plainTextFilepath, FILE_SIZE);
-			//if (clientSocket!=null) {clientSocket.close();}
-	         
-		} catch (GeneralSecurityException | IOException e) {
+    	//Establish connection with server and load key encryption into a keystore
+    	clientFile client = new clientFile(SERVER, SERVER_PORT, KeyStoreFilepath, KeyStorepassword);  
+    	try 
+    	{
+			os = new PrintStream(client.clientSocket.getOutputStream());
+	    	while(true) 
+	    	{
+	    		switch (Integer.parseInt(selectAction())) 
+	    		{
+	    		case 1:
+	    			os.println("1");
+	                client.sendFile(plainTextFilepath, encryptedTextFilepath);
+	                continue;
+	            case 2:
+	            	os.println("2");
+	            	//BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+	                //System.out.print("Enter file name: ");
+	                //fileName = stdin.readLine();
+	                client.receiveFile(plainTextFilepath, plainTextFilepath, FILE_SIZE);
+	                continue;
+	            case 3:
+	            	os.println("3");
+	            	client.clientSocket.close();
+	   			 	break;
+                default:
+                    System.out.println("Incorrect command received.");
+                    break;
+	    		}
+	    	}
+    	}
+    	catch (GeneralSecurityException | IOException e) 
+    	{
 			e.printStackTrace();
 		}
+    	finally 
+    	{
+    		
+    	}
     }
 
 }
+	

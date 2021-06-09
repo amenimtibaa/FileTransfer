@@ -12,7 +12,7 @@ public class clientFile{
 	public static int keyBitSize = 256;
 	public int SERVER_PORT = 5000; 
 	public String SERVER = "localhost";
-	private Socket clientSocket = null;
+	public Socket clientSocket = null;
 	private String KeyStoreFilepath;
 	private String KeyStorepassword;
   
