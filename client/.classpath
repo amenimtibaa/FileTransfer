@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/macbookpro/Desktop/FileTransfer/client/libs/custom_libs.jar"/>
+	<classpathentry kind="lib" path="/Users/macbookpro/Desktop/FileTransfer/client/libs/bcprov-jdk15on-159.jar"/>
 	<classpathentry kind="output" path="src"/>
 </classpath>
