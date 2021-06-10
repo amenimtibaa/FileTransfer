@@ -5,6 +5,11 @@ import java.io.*;
 
 public class FilesTransfer {
 	
+	/**
+	 * @param FILE_NAME path of file to send
+	 * @param socket client socket
+	 * @throws IOException
+	 * */
 	public static void sendFile(String FILE_NAME,Socket socket) throws IOException {
     	
 		FileInputStream fis = null;
@@ -22,11 +27,15 @@ public class FilesTransfer {
         os.flush();
         System.out.println("Done.");
         
-        if (bis != null) bis.close();
-        if (os != null) os.close();
-        
+        if (bis != null) bis.close(); 
     }
 	
+	
+	/**
+	 * @param FILE_TO_RECEIVED 
+	 * @param socket
+	 * @throws IOException
+	 * */
 	public static void saveFile(Socket socket, String FILE_TO_RECEIVED, int FILE_SIZE) throws IOException {
 		
 		int bytesRead;
@@ -49,7 +58,7 @@ public class FilesTransfer {
 	    bos.write(mybytearray, 0 , current);
 	    bos.flush();
 	    System.out.println("File " + FILE_TO_RECEIVED
-	        + " downloaded (" + current + " bytes read)");
+	        + " downloaded (" + current + " bytes)");
 	    
 	    if (fos != null) fos.close();
 	    if (bos != null) bos.close();

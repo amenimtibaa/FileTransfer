@@ -22,11 +22,10 @@ public class bouncycastle {
 	public static void generateKey(int keyBitSize, String KeyStorepassword, String KeyStoreFilepath, boolean Verbose) throws GeneralSecurityException, IOException 
 	{
 		
+		Security.addProvider(new BouncyCastleProvider());
 		KeyGenerator generator = KeyGenerator.getInstance("AES");
-		// initialize the keyGenerator
 		SecureRandom secureRandom = new SecureRandom();
 		generator.init(keyBitSize, secureRandom);
-		// generate a key for symmetric encryption
 		SecretKey key = generator.generateKey();
 		StoreToKeyStore(key, KeyStorepassword, KeyStoreFilepath);
 		if(Verbose == true) 
@@ -46,9 +45,7 @@ public class bouncycastle {
 	private static void StoreToKeyStore(SecretKey KeyToStore, String KeyStorepassword, String KeyStoreFilepath) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
 	{
 		File file = new File(KeyStoreFilepath);
-		// create a keystore object with a jceks format
 		KeyStore javaKeyStore = KeyStore.getInstance("JCEKS");
-		// Create the file if it doesn't exist
 		if(!file.exists()) 
 		{
 			javaKeyStore.load(null, null);
@@ -67,7 +64,6 @@ public class bouncycastle {
 		try 
 		{
 			KeyStore keyStore = KeyStore.getInstance("JCEKS");
-			// read the jks file
 			InputStream readStream = new FileInputStream(filepath);
 			keyStore.load(readStream, password.toCharArray());
 			SecretKey key = (SecretKey) keyStore.getKey("keyAlias", password.toCharArray());
@@ -91,14 +87,9 @@ public class bouncycastle {
 	 * */
 	public static void encryptFile(String inputFilepath, String outputFilepath, String KeyStoreFilepath, String KeyStorepassword) throws GeneralSecurityException, IOException {
 		
-		// Retrieve the encryption key
 		SecretKey key = LoadFromKeyStore(KeyStoreFilepath, KeyStorepassword);
-		// Retrieve the plaintext
 		byte[] plainText = Files.readAllBytes(Path.of(inputFilepath));
-		//The Cipher class represents a cryptographic algorithm 
-		//In this case it uses the AES encryption algorithm internally.
 		Cipher cipher = Cipher.getInstance("AES");
-		// initialize the cipher
 		cipher.init(Cipher.ENCRYPT_MODE, key);
 		byte[] encryptedOutput = cipher.doFinal(plainText);
 		// Write the encrypted result in a new file
@@ -113,9 +104,7 @@ public class bouncycastle {
 	 * @param KeyStorepassword  the keystore password
 	 * */
 	public static void decryptFile(String inputFilepath, String outputFilepath, String KeyStoreFilepath, String KeyStorepassword) throws GeneralSecurityException, IOException {
-		// Retrieve the decryption key
 		SecretKey key = LoadFromKeyStore(KeyStoreFilepath, KeyStorepassword);
-		// Retrieve the encrypted text
 		byte[] ciphertext = Files.readAllBytes(Path.of(inputFilepath));
 		Cipher cipher = Cipher.getInstance("AES");
 		cipher.init(Cipher.DECRYPT_MODE, key);
@@ -132,11 +121,8 @@ public class bouncycastle {
         try 
         {
         	File file = new File(outputFilepath);
-        	// Initialize a pointer in file using OutputStream
             OutputStream os = new FileOutputStream(file);
-            // Starts writing the bytes in it
             os.write(bytes);
-            // Close the file
             os.close();
         }
   
@@ -155,7 +141,6 @@ public class bouncycastle {
 		String plainTextFilepath = "test.txt";
 		String encryptedTextFilepath = "testEncrypted.txt";
 		
-        Security.addProvider(new BouncyCastleProvider());
 	    try 
 	    {	
 	    	generateKey(keyBitSize, KeyStorepassword,  KeyStoreFilepath, Verbose);
