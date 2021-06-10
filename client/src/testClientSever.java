@@ -39,30 +39,30 @@ public class testClientSever
     	try 
     	{
 			os = new PrintStream(client.clientSocket.getOutputStream());
-	    	while(true) 
-	    	{
-	    		switch (Integer.parseInt(selectAction())) 
-	    		{
-	    		case 1:
-	    			os.println("1");
-	                client.sendFile(plainTextFilepath, encryptedTextFilepath);
-	                continue;
-	            case 2:
-	            	os.println("2");
-	            	//BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-	                //System.out.print("Enter file name: ");
-	                //fileName = stdin.readLine();
-	                client.receiveFile(plainTextFilepath, plainTextFilepath, FILE_SIZE);
-	                continue;
-	            case 3:
-	            	os.println("3");
-	            	client.clientSocket.close();
-	   			 	break;
-                default:
-                    System.out.println("Incorrect command received.");
-                    break;
-	    		}
-	    	}
+	    	
+    		switch (Integer.parseInt(selectAction())) 
+    		{
+    		case 1:
+    			os.println("1");
+                client.sendFile(plainTextFilepath, encryptedTextFilepath);
+                break;
+            case 2:
+            	os.println("2");
+            	//BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+                //System.out.print("Enter file name: ");
+                //fileName = stdin.readLine();
+                client.receiveFile(plainTextFilepath, plainTextFilepath, FILE_SIZE);
+                break;
+            case 3:
+            	os.println("3");
+            	client.clientSocket.close();
+   			 	break;
+            default:
+                System.out.println("Incorrect command received.");
+                break;
+    		}
+    		if(client.clientSocket != null) client.clientSocket.close();
+	    	
     	}
     	catch (GeneralSecurityException | IOException e) 
     	{

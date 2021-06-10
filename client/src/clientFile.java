@@ -57,14 +57,13 @@ public class clientFile{
 	/**
 	 * @throws IOException 
 	 * @throws GeneralSecurityException 
-	 * 
 	 * */
 	public void receiveFile(String encryptedTextFilepath, String plainTextFilepath, int FILE_SIZE) throws IOException, GeneralSecurityException 
 	{
 		FilesTransfer.saveFile(clientSocket, encryptedTextFilepath,  FILE_SIZE);
-		if (VERBOSE) {System.out.println("File" + encryptedTextFilepath + "successfully received");}
+		if (VERBOSE) {System.out.println("Encrypted File : " + encryptedTextFilepath + " successfully received");}
 		bouncycastle.decryptFile( encryptedTextFilepath, plainTextFilepath , KeyStoreFilepath, KeyStorepassword);
-		if (VERBOSE) {System.out.println("File" + plainTextFilepath + "successfully saved");}
+		if (VERBOSE) {System.out.println("File : " + plainTextFilepath + " successfully decrypted and saved");}
 	}
 	
     /*
