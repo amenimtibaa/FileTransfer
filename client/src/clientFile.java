@@ -65,32 +65,5 @@ public class clientFile{
 		bouncycastle.decryptFile( encryptedTextFilepath, plainTextFilepath , KeyStoreFilepath, KeyStorepassword);
 		if (VERBOSE) {System.out.println("File : " + plainTextFilepath + " successfully decrypted and saved");}
 	}
-	
-    /*
-	public static void main(String args[]) throws FileNotFoundException
-    {	
-    	String KeyStorepassword = "458391479854";
-    	//Socket clientSocket;
-    	int SERVER_PORT = 5000; 
-    	String SERVER = "localhost";
-
-    	String KeyStoreFilepath = "keystore.keystore";
-    	
-    	String plainTextFilepath = "test.txt";
-    	String encryptedTextFilepath = "testEncrypted.txt";
-    	int FILE_SIZE = 6022386;
-    	
-    	clientFile client = new clientFile(SERVER, SERVER_PORT, KeyStoreFilepath, KeyStorepassword);  
-    	
-    	try {
-    		client.sendFile(plainTextFilepath, encryptedTextFilepath);
-    		//client.receiveFile(plainTextFilepath, plainTextFilepath, FILE_SIZE);
-			//if (clientSocket!=null) {clientSocket.close();}
-	         
-		} catch (GeneralSecurityException | IOException e) {
-			e.printStackTrace();
-		}
-    }
-    */
     
 }
